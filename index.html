@@ -94,12 +94,12 @@ body {
 <body>
   <div id="container">
     <div id="video-wrap">
-      <video id="video" src="zucc.mp4" autoplay></video>
+      <video id="video" src="./zucc.mp4" autoplay muted playsinline></video>
     </div>
     <div class="slider-wrap">
       <div class="slider-inner">
         <span>😐</span>
-        <input id="slider" type="range" min=0 max=111>
+        <input id="slider" type="range" min=0 max=111 disabled>
         <span>🙂</span>
       </div>
     </div>
@@ -111,7 +111,8 @@ const seqs = 28;
 window.addEventListener('DOMContentLoaded', _ => {
   console.log('dom loaded');
 
-  const videowrap  = document.getElementById('video-wrap'),
+  const video  = document.getElementById('video'),
+        videowrap  = document.getElementById('video-wrap'),
         imgs = [],
         slider = document.getElementById('slider');
 
@@ -120,20 +121,27 @@ window.addEventListener('DOMContentLoaded', _ => {
   for(let i=0; i<seqs; i++) {
     let img = document.createElement('img');
     img.classList += 'seq';
-    img.src = `seq/${i}.png`;
+    img.src = `./seq/${i}.png`;
     imgs.push(img);
     
     videowrap.appendChild(img);
   }
 
-  slider.addEventListener('input', e => {
-    const t = ~~(e.target.value / 4);
+  video.addEventListener('loadeddata', e => {
+    console.log('video loaded');
 
-    requestAnimationFrame(_ => {
-      for(let i=0; i<seqs; i++) {
-        imgs[i].style.visibility = i == t ? 'visible' : 'hidden';
-      }
+    slider.removeAttribute('disabled');
+
+    slider.addEventListener('input', e => {
+      const t = ~~(e.target.value / 4);
+
+      requestAnimationFrame(_ => {
+        for(let i=0; i<seqs; i++) {
+          imgs[i].style.visibility = i == t ? 'visible' : 'hidden';
+        }
+      });
     });
+
   });
 });
 </script>
