@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<style>
+#video {
+  width: 300px;
+}
+</style>
+</head>
+<body>
+<video id="video" src="zucc.mov" autoplay></video>
+<input id="slider" type="range" min=0 max=1000>
+<script>
+const start = 1.93,
+      end = 2.67
+
+window.addEventListener('DOMContentLoaded', _ => {
+  console.log('dom loaded');
+
+  const video  = document.getElementById('video'),
+        slider = document.getElementById('slider');
+
+  video.addEventListener('loadeddata', e => {
+    console.log('video loaded');
+
+    slider.addEventListener('input', e => {
+      video.pause();
+
+      const perc = e.target.value / e.target.max,
+            time = start + (end - start) * perc;
+      console.log(perc, time);
+
+      video.currentTime = time;
+    });
+  });
+});
+</script>
+</body>
+</html>
