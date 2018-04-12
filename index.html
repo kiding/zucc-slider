@@ -10,7 +10,9 @@ html {
   height: 100%;
   padding: 0;
   margin: 0;
+  background: #dfe3ee;
 }
+
 body {
   display: flex;
   width: 100%;
@@ -20,17 +22,21 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 #container {
   position: relative;
-  width: 300px;
-  height: auto;
+  width: 320px;
+  height: 341px;
   overflow: hidden;
   border-radius: 3px;
+  border: 1px solid;
+  background: #000;
 }
 
 @media screen and (min-width: 480px) {
   #container {
     width: 480px;
+    height: 512px;
   }
 }
 
@@ -41,13 +47,13 @@ body {
 
 #video {
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .seq {
   position: absolute;
   width: 100%;
-  height: auto;
+  height: 100%;
   top: 0;
   left: 0;
   visibility: hidden;
@@ -84,12 +90,8 @@ body {
 .slider-inner span {
   display: flex;
   flex: 0 0 auto;
-}
-
-#slider {
 
 }
-
 </style>
 </head>
 <body>
