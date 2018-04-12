@@ -1,36 +1,62 @@
 <!doctype html>
 <html>
 <head>
+<meta charset="utf-8">
+<title>Z U C C</title>
 <style>
-#video {
+#video, .seq {
   width: 300px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
 }
+
+.seq {
+  visibility: hidden;
+}
+
+#slider {
+  position: absolute;
+  top: 400px;
+}
+
 </style>
 </head>
 <body>
-<video id="video" src="zucc.mov" autoplay></video>
-<input id="slider" type="range" min=0 max=1000>
+  <div id="container">
+    <video id="video" src="zucc.mp4" autoplay></video>
+  </div>
+
+  <input id="slider" type="range" min=0 max=111>
 <script>
-const start = 1.93,
-      end = 2.67
+const seqs = 28;
 
 window.addEventListener('DOMContentLoaded', _ => {
   console.log('dom loaded');
 
-  const video  = document.getElementById('video'),
+  const container  = document.getElementById('container'),
+        imgs = [],
         slider = document.getElementById('slider');
 
-  video.addEventListener('loadeddata', e => {
-    console.log('video loaded');
+  slider.value = 0;
 
-    slider.addEventListener('input', e => {
-      video.pause();
+  for(let i=0; i<seqs; i++) {
+    let img = document.createElement('img');
+    img.classList += 'seq';
+    img.src = `seq/${i}.png`;
+    imgs.push(img);
+    
+    container.appendChild(img);
+  }
 
-      const perc = e.target.value / e.target.max,
-            time = start + (end - start) * perc;
-      console.log(perc, time);
+  slider.addEventListener('input', e => {
+    const t = ~~(e.target.value / 4);
 
-      video.currentTime = time;
+    requestAnimationFrame(_ => {
+      for(let i=0; i<seqs; i++) {
+        imgs[i].style.visibility = i == t ? 'visible' : 'hidden';
+      }
     });
   });
 });
