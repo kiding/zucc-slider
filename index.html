@@ -139,7 +139,7 @@ window.addEventListener('DOMContentLoaded', _ => {
 
   const loading  = document.getElementById('loading'),
         video = document.getElementById('video'),
-        videowrap = document.getElementById('video-wrap'),
+        videoWrap = document.getElementById('video-wrap'),
         imgs = [],
         slider = document.getElementById('slider');
 
@@ -168,7 +168,7 @@ window.addEventListener('DOMContentLoaded', _ => {
     img.src = `./seq/${i}.jpg`;
     imgs.push(img);
     
-    videowrap.appendChild(img);
+    videoWrap.appendChild(img);
   }
 
   video.addEventListener('loadedmetadata', e => {
