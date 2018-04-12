@@ -23,6 +23,22 @@ body {
   justify-content: center;
 }
 
+#loading-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: #fff;
+}
+
+#loading {
+  width: 0%;
+  height: 100%;
+  background: #3b5998;
+  transition: width 0.25s linear;
+}
+
 #container {
   position: relative;
   width: 320px;
@@ -92,9 +108,13 @@ body {
   flex: 0 0 auto;
 
 }
+
 </style>
 </head>
 <body>
+  <div id="loading-wrap">
+    <div id="loading"></div>
+  </div>
   <div id="container">
     <div id="video-wrap">
       <video id="video" src="./zucc.mp4" poster='./poster.jpg' muted playsinline></video>
@@ -116,15 +136,19 @@ let loadedSeqs = 0,
 window.addEventListener('DOMContentLoaded', _ => {
   console.log('dom loaded');
 
-  const video  = document.getElementById('video'),
-        videowrap  = document.getElementById('video-wrap'),
+  const loading  = document.getElementById('loading'),
+        video = document.getElementById('video'),
+        videowrap = document.getElementById('video-wrap'),
         imgs = [],
         slider = document.getElementById('slider');
 
   let interval = 0;
   slider.value = 0;
 
-  const playIfPossible = _ => {
+  const progress = _ => {
+    const perc = (loadedSeqs + !!loadedVideo) / (totalSeqs + 1) * 100;
+    loading.style.width = `${perc}%`;
+
     if (loadedSeqs == totalSeqs && loadedVideo) {
       video.play();
     }
@@ -137,7 +161,7 @@ window.addEventListener('DOMContentLoaded', _ => {
     img.addEventListener('load', _ => {
       console.log('seq loaded');
       loadedSeqs++;
-      playIfPossible();
+      progress();
     });
 
     img.src = `./seq/${i}.jpg`;
@@ -149,7 +173,7 @@ window.addEventListener('DOMContentLoaded', _ => {
   video.addEventListener('loadedmetadata', e => {
     console.log('loadedmetadata');
     loadedVideo = true;
-    playIfPossible();
+    progress();
   });
 
   video.addEventListener('play', e => {
