@@ -106,7 +106,9 @@ body {
   </div>
 
 <script>
-const seqs = 28;
+const totalSeqs = 28;
+let loadedSeqs = 0,
+    loadedVideo = false;
 
 window.addEventListener('DOMContentLoaded', _ => {
   console.log('dom loaded');
@@ -119,21 +121,42 @@ window.addEventListener('DOMContentLoaded', _ => {
   let interval = 0;
   slider.value = 0;
 
-  for(let i=0; i<seqs; i++) {
+  const playIfPossible = _ => {
+    if (loadedSeqs == totalSeqs && loadedVideo) {
+      video.play();
+    }
+  };
+
+  for(let i=0; i<totalSeqs; i++) {
     let img = document.createElement('img');
     img.classList += 'seq';
+
+    img.addEventListener('load', _ => {
+      console.log('seq loaded');
+      loadedSeqs++;
+      playIfPossible();
+    });
+
     img.src = `./seq/${i}.jpg`;
     imgs.push(img);
     
     videowrap.appendChild(img);
   }
 
+  video.addEventListener('canplaythrough', e => {
+    console.log('canplaythrough');
+    loadedVideo = true;
+    playIfPossible();
+  });
+
   video.addEventListener('play', e => {
+    console.log('play');
+
     setTimeout(_ => {
       interval = setInterval(_ => {
         slider.value = parseInt(slider.value) + 1;
-      }, 7);
-    }, 2450);
+      }, 5);
+    }, 2400);
   });
 
   video.addEventListener('pause', e => {
@@ -147,7 +170,7 @@ window.addEventListener('DOMContentLoaded', _ => {
       const t = ~~(e.target.value / 4);
 
       requestAnimationFrame(_ => {
-        for(let i=0; i<seqs; i++) {
+        for(let i=0; i<totalSeqs; i++) {
           imgs[i].style.visibility = i == t ? 'visible' : 'hidden';
         }
       });
