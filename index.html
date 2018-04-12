@@ -146,8 +146,8 @@ window.addEventListener('DOMContentLoaded', _ => {
     videowrap.appendChild(img);
   }
 
-  video.addEventListener('canplaythrough', e => {
-    console.log('canplaythrough');
+  video.addEventListener('loadedmetadata', e => {
+    console.log('loadedmetadata');
     loadedVideo = true;
     playIfPossible();
   });
