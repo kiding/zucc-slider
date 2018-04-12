@@ -59,6 +59,7 @@ body {
 #video-wrap {
   position: relative;
   width: 100%;
+  transform: translateZ(0);
 }
 
 #video {
@@ -228,7 +229,6 @@ window.addEventListener('DOMContentLoaded', _ => {
     slider.removeAttribute('disabled');
     clearInterval(interval);
 
-
     slider.addEventListener('input', e => {
       filterCounter++;
 
@@ -238,7 +238,7 @@ window.addEventListener('DOMContentLoaded', _ => {
         const flo = filterCounter * filterWeightOne + 1,
               deg = (filterCounter * filterWeightTwo) % 360;
 
-        document.body.style.filter = `brightness(${flo}) contrast(${flo}) hue-rotate(${deg}deg)`;
+        videoWrap.style.filter = `brightness(${flo}) contrast(${flo}) hue-rotate(${deg}deg)`;
 
         for(let i=0; i<totalSeqs; i++) {
           imgs[i].style.opacity = i == t ? '1' : '0';
